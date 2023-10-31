@@ -1,23 +1,27 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
 import loginImg from "../../assets/images/login/login.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
-    const {signIn} = useContext(AuthContext)
-    const handleLogin = e =>{
-        e.preventDefault()
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        signIn(email, password)
-        .then(result => {
-            const user = result.user 
-            console.log(user);
-        })
-        .then(error => console.log(error))
-    }
+  const location = useLocation();
+
+  const navigate = useNavigate();
+  const { signIn } = useContext(AuthContext);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(location?.state ? location?.state : "/");
+      })
+      .then((error) => console.log(error));
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row">
@@ -66,7 +70,15 @@ const Login = () => {
                   value="Login"
                 />
               </div>
-              <p className="text-[#737373] mt-10 text-center">New to Cars Doctor<Link to={'/signUp'} className="text-[#FF3811] text-[18px] font-semibold ml-3">Sign Up</Link></p>
+              <p className="text-[#737373] mt-10 text-center">
+                New to Cars Doctor
+                <Link
+                  to={"/signUp"}
+                  className="text-[#FF3811] text-[18px] font-semibold ml-3"
+                >
+                  Sign Up
+                </Link>
+              </p>
             </form>
           </div>
         </div>

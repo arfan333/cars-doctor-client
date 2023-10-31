@@ -6,6 +6,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  console.log(user);
   const handleSignOut = () => {
     logOut()
       .then(() => {})
@@ -33,8 +34,9 @@ const Navbar = () => {
           <li>
             <Link to={"/bookingsItems"}>My Bookings</Link>
           </li>
-          <li>
-            <h1>{user?.email}</h1>
+          <li className="flex flex-row justify-center">
+           <div className="flex flex-col"> <h1>{user?.email}</h1>
+            <p>{user?.metadata?.lastSignInTime}</p></div>
             <button onClick={handleSignOut}>Sign Out</button>
           </li>
         </>
